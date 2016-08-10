@@ -45,3 +45,4 @@ To reconnect with a screen type `screen -r `\<session name\>.
 
 To kill a screen type `screen -X -S ` \<session name\> ` kill`.
 
+To exit the server type `logout`.
