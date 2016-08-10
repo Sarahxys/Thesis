@@ -14,11 +14,11 @@ If you want to cancel a command type `Command .`
 
 If you want to view the contents of a directory type `ls`.
 
-If you want to change a directory type `cd `<directory path>.
+If you want to change a directory type `cd `\<directory path\>.
 
 If you want to know what directory you are in type `pwd`.
 
-If you want to make a directory, type `mkdir` <directory name>.
+If you want to make a directory, type `mkdir` \<directory name\>.
 
 
 # Basics for using info.
@@ -35,13 +35,13 @@ You can check how busy a system is using the unix command `top`.  Exit by typing
 
 Screen is very useful for running background jobs.
 
-To launch a screen session type `screen -S `<session name>.
+To launch a screen session type `screen -S `\<session name\>.
 
 To exit a screen type `control a, control d`.  
 
 To list screen type `screen -ls`.
 
-To reconnect with a screen type `screen -r `<session name>.
+To reconnect with a screen type `screen -r `\<session name\>.
 
-To kill a screen type `screen -X -S ` <session name> ` kill`.
+To kill a screen type `screen -X -S ` \<session name\> ` kill`.
 
