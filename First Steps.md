@@ -6,3 +6,10 @@
 * Run assemblies for XL and XT
 * Download Xl and XT genomes
 * Make BLAST databases from these genomes.
+
+
+# Basics for connecting to a server
+
+In order to connect to a server, use this command:
+
+`ssh xue@info.mcmaster.ca`
