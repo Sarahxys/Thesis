@@ -25,3 +25,5 @@ To connect to info, use this command:
 `ssh xue@info.mcmaster.ca`
 
 This gets you into the `head` server, which is called infoserv.  Please do not run jobs on the head.  Instead you can connect to the other processors like this: `rsh info115` (or `rsh info113`, `rsh info114`,...).
+
+You can check how busy a system is using the unix command `top`.  Exit by typing `q`.
