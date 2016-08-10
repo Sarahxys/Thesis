@@ -65,5 +65,7 @@ To exit the server type `logout`.
 Once the data were copied over, we uncompressed each file like this:
 
 `tar -xvf Sample_BenEvansBJE3909cDNA_Library.tar`
+and
+`tar -xvf Sample_BenEvansBJE4168cDNA_Library.tar`
 
 
