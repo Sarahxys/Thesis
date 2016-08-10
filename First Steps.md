@@ -22,11 +22,17 @@ If you want to make a directory, type `mkdir` \<directory name\>.
 
 If you want to remove a file type `rm -f `\<filename\>.
 
+# Installing trinity
 To download the trinity package we typed `wget https://github.com/trinityrnaseq/trinityrnaseq/archive/v2.2.0.tar.gz`.  This link would have to be updated when an new version becomes available.
 
 To uncompress it, type `tar -zxvf v2.2.0.tar.gz`
 
 Instructions for install are her `https://github.com/trinityrnaseq/trinityrnaseq/wiki/Installing%20Trinity`.
+
+# Installing trimmomatic
+
+This software is used to trim off bad sequences based on position in the read and quality scores of the nucleotides.
+
 
 # Basics for using info.
 
@@ -53,3 +59,11 @@ To reconnect with a screen type `screen -r `\<session name\>.
 To kill a screen type `screen -X -S ` \<session name\> ` kill`.
 
 To exit the server type `logout`.
+
+# The data
+
+Once the data were copied over, we uncompressed each file like this:
+
+`tar -xvf Sample_BenEvansBJE3909cDNA_Library.tar`
+
+
