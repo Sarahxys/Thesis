@@ -30,3 +30,18 @@ To connect to info, use this command:
 This gets you into the `head` server, which is called infoserv.  Please do not run jobs on the head.  Instead you can connect to the other processors like this: `rsh info115` (or `rsh info113`, `rsh info114`,...).
 
 You can check how busy a system is using the unix command `top`.  Exit by typing `q`.
+
+# Using Unix Screen
+
+Screen is very useful for running background jobs.
+
+To launch a screen session type `screen -S `<session name>.
+
+To exit a screen type `control a, control d`.  
+
+To list screen type `screen -ls`.
+
+To reconnect with a screen type `screen -r `<session name>.
+
+To kill a screen type `screen -X -S `<session name>` kill`.
+
