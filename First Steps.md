@@ -20,6 +20,7 @@ If you want to know what directory you are in type `pwd`.
 
 If you want to make a directory, type `mkdir` <directory name>.
 
+
 # Basics for using info.
 
 To connect to info, use this command:
