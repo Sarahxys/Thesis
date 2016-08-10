@@ -58,7 +58,7 @@ Screen is very useful for running background jobs.
 
 To launch a screen session type `screen -S `\<session name\>.
 
-To exit a screen type `control a, control d`.  
+To exit a screen type `control a, d`.  
 
 To list screen type `screen -ls`.
 
