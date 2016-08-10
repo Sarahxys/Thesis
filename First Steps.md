@@ -43,5 +43,5 @@ To list screen type `screen -ls`.
 
 To reconnect with a screen type `screen -r `<session name>.
 
-To kill a screen type `screen -X -S `<session name>` kill`.
+To kill a screen type `screen -X -S ` <session name> ` kill`.
 
