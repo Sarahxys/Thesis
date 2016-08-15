@@ -3,7 +3,7 @@
 * Copy the transcriptome data to Xue's info account (done)
 * Practce using Screen (done)
 * Install Trinity (done)
-* Trimming (done with XT)
+* Trimming (done)
 * Run assemblies for XL and XT
 * Download Xl and XT genomes
 * Make BLAST databases from these genomes.
