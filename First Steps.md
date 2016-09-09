@@ -7,7 +7,7 @@
 * Run assemblies for XL and XT
 * Download Xl and XT genomes
 * Make BLAST databases from these genomes.
-- [X] stuff
+- [ ] stuff
 
 
 # Basics for Unix
