@@ -18,7 +18,7 @@ Since our last meeting Xue has trimmed the sequence data from X. laevis and X. t
 
 # Trinity assembly
 
-First we combined the trimmed forward and reverse reads like this:
+First in this directory (`/home/xue/transcriptome_data/BJE3909_tropicalis_trimmed_data`), we combined the trimmed forward and reverse reads like this:
 ```
 zcat BenEvansBJE3909cDNA_Library_GTGAAA_L004_R1_001_paired.fastq.gz BenEvansBJE3909cDNA_Library_GTGAAA_L004_R1_002_paired.fastq.gz BenEvansBJE3909cDNA_Library_GTGAAA_L004_R1_003_paired.fastq.gz BenEvansBJE3909cDNA_Library_GTGAAA_L004_R1_004_paired.fastq.gz BenEvansBJE3909cDNA_Library_GTGAAA_L004_R1_005_paired.fastq.gz BenEvansBJE3909cDNA_Library_GTGAAA_L004_R1_006_paired.fastq.gz BenEvansBJE3909cDNA_Library_GTGAAA_L004_R1_007_paired.fastq.gz BenEvansBJE3909cDNA_Library_GTGAAA_L005_R1_001_paired.fastq.gz BenEvansBJE3909cDNA_Library_GTGAAA_L005_R1_002_paired.fastq.gz BenEvansBJE3909cDNA_Library_GTGAAA_L005_R1_003_paired.fastq.gz BenEvansBJE3909cDNA_Library_GTGAAA_L005_R1_004_paired.fastq.gz BenEvansBJE3909cDNA_Library_GTGAAA_L005_R1_005_paired.fastq.gz BenEvansBJE3909cDNA_Library_GTGAAA_L005_R1_006_paired.fastq.gz BenEvansBJE3909cDNA_Library_GTGAAA_L005_R1_007_paired.fastq.gz > BJE3909_paired_R1.fq.gz
 ```
