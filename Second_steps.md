@@ -32,3 +32,9 @@ zcat BenEvansBJE3909cDNA_Library_GTGAAA_L004_R1_001_single.fastq.gz BenEvansBJE3
 ```
 zcat BenEvansBJE3909cDNA_Library_GTGAAA_L004_R2_001_single.fastq.gz BenEvansBJE3909cDNA_Library_GTGAAA_L004_R2_002_single.fastq.gz BenEvansBJE3909cDNA_Library_GTGAAA_L004_R2_003_single.fastq.gz BenEvansBJE3909cDNA_Library_GTGAAA_L004_R2_004_single.fastq.gz BenEvansBJE3909cDNA_Library_GTGAAA_L004_R2_005_single.fastq.gz BenEvansBJE3909cDNA_Library_GTGAAA_L004_R2_006_single.fastq.gz BenEvansBJE3909cDNA_Library_GTGAAA_L004_R2_007_single.fastq.gz BenEvansBJE3909cDNA_Library_GTGAAA_L005_R2_001_single.fastq.gz BenEvansBJE3909cDNA_Library_GTGAAA_L005_R2_002_single.fastq.gz BenEvansBJE3909cDNA_Library_GTGAAA_L005_R2_003_single.fastq.gz BenEvansBJE3909cDNA_Library_GTGAAA_L005_R2_004_single.fastq.gz BenEvansBJE3909cDNA_Library_GTGAAA_L005_R2_005_single.fastq.gz BenEvansBJE3909cDNA_Library_GTGAAA_L005_R2_006_single.fastq.gz BenEvansBJE3909cDNA_Library_GTGAAA_L005_R2_007_single.fastq.gz > BJE3909_single_R2.fq.gz
 ```
+
+# Starting up a trinity assembly
+
+```
+/home/xue/trinityrnaseq-2.2.0/Trinity --seqType fq --left /home/xue/transcriptome_data/BJE3909_tropicalis_trimmed_data/BJE3909_paired_R1.fq.gz --right /home/xue/transcriptome_data/BJE3909_tropicalis_trimmed_data/BJE3909_paired_R1.fq.gz --CPU 6 --max_memory 20G
+```
