@@ -55,5 +55,5 @@ scp xue@info.mcmaster.ca:/home/xue/transcriptome_data/BJE3909_tropicalis_trimmed
 # Starting up a trinity assembly
 
 ```
-/home/xue/trinityrnaseq-2.2.0/Trinity --seqType fq --left /home/xue/transcriptome_data/BJE3909_tropicalis_trimmed_data/BJE3909_paired_R1.fq.gz --right /home/xue/transcriptome_data/BJE3909_tropicalis_trimmed_data/BJE3909_paired_R1.fq.gz --single /home/xue/transcriptome_data/BJE3909_tropicalis_trimmed_data/BJE3909_single_R1_and_R2.fq.gz --CPU 6 --max_memory 20G
+/home/xue/trinityrnaseq-2.2.0/Trinity --seqType fq --left /home/xue/transcriptome_data/BJE3909_tropicalis_trimmed_data/BJE3909_paired_R1.fq.gz --right /home/xue/transcriptome_data/BJE3909_tropicalis_trimmed_data/BJE3909_paired_R2.fq.gz --single /home/xue/transcriptome_data/BJE3909_tropicalis_trimmed_data/BJE3909_single_R1_and_R2.fq.gz --CPU 6 --max_memory 20G
 ```
