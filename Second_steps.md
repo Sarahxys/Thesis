@@ -37,6 +37,20 @@ gzip BJE3909_paired_R2.fq
 gzip BJE3909_single_R1_and_R2.fq
 ```
 
+# Fastqc
+
+You can make a html file with QC information like this:
+
+```
+fastqc BJE3909_single_R1_and_R2.fq.gz
+```
+
+and then download the file to inspect with a browser like this:
+
+```
+scp xue@info.mcmaster.ca:/home/xue/transcriptome_data/BJE3909_tropicalis_trimmed_data/BJE3909_single_R1_and_R2_fastqc.html .
+```
+
 
 # Starting up a trinity assembly
 
