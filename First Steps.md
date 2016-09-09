@@ -2,7 +2,7 @@
 * Make a github repo (done)
 * Copy the transcriptome data to Xue's info account (done)
 * Practce using Screen (done)
-* Install Trinity (done)
+* Install Trinity and trimmomatic (done)
 * Trimming (done)
 * Run assemblies for XL and XT
 * Download Xl and XT genomes
