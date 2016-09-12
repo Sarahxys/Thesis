@@ -78,3 +78,22 @@ makeblastdb -in Xla.v91.repeatMasked.fa -dbtype nucl -out db_Xlaevis_v91
 ```
 makeblastdb -in Xtropicalis.v9.repeatMasked.fa -dbtype nucl -out db_Xtropicalis_v9
 ```
+Output information after blast databases are created 
+for X.laevis:
+Building a new DB, current time: 09/12/2016 12:18:52
+New DB name:   /home/xue/genome_data/db_Xlaevis_v91
+New DB title:  Xla.v91.repeatMasked.fa
+Sequence type: Nucleotide
+Keep Linkouts: T
+Keep MBits: T
+Maximum file size: 1000000000B
+Adding sequences from FASTA; added 402501 sequences in 137.079 seconds.
+
+for X.tropicalis:
+New DB name:   /home/xue/genome_data/db_Xtropicalis_v9
+New DB title:  Xtropicalis.v9.repeatMasked.fa
+Sequence type: Nucleotide
+Keep Linkouts: T
+Keep MBits: T
+Maximum file size: 1000000000B
+Adding sequences from FASTA; added 6823 sequences in 73.4571 seconds.
