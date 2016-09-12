@@ -58,7 +58,7 @@ scp xue@info.mcmaster.ca:/home/xue/transcriptome_data/BJE3909_tropicalis_trimmed
 /home/xue/trinityrnaseq-2.2.0/Trinity --seqType fq --left /home/xue/transcriptome_data/BJE3909_tropicalis_trimmed_data/BJE3909_paired_R1.fq.gz --right /home/xue/transcriptome_data/BJE3909_tropicalis_trimmed_data/BJE3909_paired_R2.fq.gz --single /home/xue/transcriptome_data/BJE3909_tropicalis_trimmed_data/BJE3909_single_R1_and_R2.fq.gz --CPU 6 --max_memory 20G
 ```
 #Downloading genome data from Xenbase
-Genome data for X.tropicalis (Version 9) and X.laevis(version 9.1) were downloaded from Xenbase
+Genome data for X.tropicalis (Version 9) and X.laevis(version 9.1) were downloaded from Xenbase and is store in (`*`)
 ```
 wget ftp://ftp.xenbase.org/pub/Genomics/JGI/Xentr9.0/Xtropicalis.v9.repeatMasked.fa.gz
 ```
@@ -70,4 +70,11 @@ wget ftp://ftp.xenbase.org/pub/Genomics/JGI/Xenla9.1/*repeat*
 The genome data file is in gz and makeblastdb only run with fasta file, so the genome data was unzip using:
 ```
 gunzip Xtropicalis.v9.repeatMasked.fa.gz
+```
+the blast database is made using:
+```
+makeblastdb -in Xla.v91.repeatMasked.fa -dbtype nucl -out db_Xlaevis_v91
+```
+```
+makeblastdb -in Xtropicalis.v9.repeatMasked.fa -dbtype nucl -out db_Xtropicalis_v9
 ```
