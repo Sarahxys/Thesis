@@ -22,7 +22,7 @@ If you want to know what directory you are in type `pwd`.
 
 If you want to make a directory, type `mkdir` \<directory name\>.
 
-If you want to remove a file type `rm -f `\<filename\>.
+If you want to remove a file type `rm -f `\<filename\>; to remove a directory `rm -rf`\<filename\>.
 
 # Installing trinity
 To download the trinity package we typed `wget https://github.com/trinityrnaseq/trinityrnaseq/archive/v2.2.0.tar.gz`.  This link would have to be updated when an new version becomes available.
