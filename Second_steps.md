@@ -57,3 +57,17 @@ scp xue@info.mcmaster.ca:/home/xue/transcriptome_data/BJE3909_tropicalis_trimmed
 ```
 /home/xue/trinityrnaseq-2.2.0/Trinity --seqType fq --left /home/xue/transcriptome_data/BJE3909_tropicalis_trimmed_data/BJE3909_paired_R1.fq.gz --right /home/xue/transcriptome_data/BJE3909_tropicalis_trimmed_data/BJE3909_paired_R2.fq.gz --single /home/xue/transcriptome_data/BJE3909_tropicalis_trimmed_data/BJE3909_single_R1_and_R2.fq.gz --CPU 6 --max_memory 20G
 ```
+#Downloading genome data from Xenbase
+Genome data for X.tropicalis (Version 9) and X.laevis(version 9.1) were downloaded from Xenbase
+```
+wget ftp://ftp.xenbase.org/pub/Genomics/JGI/Xentr9.0/Xtropicalis.v9.repeatMasked.fa.gz
+```
+The name of the file cannot be copy&paste on Xenbase, a quick way to get the file is to use * to select the name of the file with specific word
+```
+wget ftp://ftp.xenbase.org/pub/Genomics/JGI/Xenla9.1/*repeat*
+```
+#Making a blast database using downloaded genome
+The genome data file is in gz and makeblastdb only run with fasta file, so the genome data was unzip using:
+```
+gunzip Xtropicalis.v9.repeatMasked.fa.gz
+```
