@@ -58,8 +58,9 @@ scp xue@info.mcmaster.ca:/home/xue/transcriptome_data/BJE3909_tropicalis_trimmed
 /home/xue/trinityrnaseq-2.2.0/Trinity --seqType fq --left /home/xue/transcriptome_data/BJE3909_tropicalis_trimmed_data/BJE3909_paired_R1.fq.gz --right /home/xue/transcriptome_data/BJE3909_tropicalis_trimmed_data/BJE3909_paired_R2.fq.gz --single /home/xue/transcriptome_data/BJE3909_tropicalis_trimmed_data/BJE3909_single_R1_and_R2.fq.gz --CPU 6 --max_memory 20G
 ```
 2 additional function added: add cleanup flag to skip all the intermediate files and keep the fastq file only; and the output directory is named:
+```
 /home/xue/trinityrnaseq-2.2.0/Trinity --seqType fq --left /home/xue/transcriptome_data/BJE4168_laevis_trimmed_data/BJE4168_paired_R1.fq.gz --right /home/xue/transcriptome_data/BJE4168_laevis_trimmed_data/BJE4168_paired_R2.fq.gz --single /home/xue/transcriptome_data/BJE4168_laevis_trimmed_data/BJE4168_single_R1_and_R2.fq.gz --CPU 6 --max_memory 20G --full_cleanup --output /home/xue/transcriptome_data/laevis_trinity_out 
-
+```
 #Downloading genome data from Xenbase
 Genome data for X.tropicalis (Version 9) and X.laevis(version 9.1) were downloaded from Xenbase and is store in (`/home/xue/genome_data`)
 ```
