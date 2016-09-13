@@ -1,7 +1,7 @@
 # More work on the RNAseq data with BenE and BenF
 
 Since our last meeting Xue has trimmed the sequence data from X. laevis and X. tropicalis using trimmomatic.  We now want to do the following:
-- [ ] Set up a 'vanilla' trinity assembly for each transcriptome
+- [x] Set up a 'vanilla' trinity assembly for each transcriptome
 - [x] Download XL and XT genomes using wget
 - [x] Make a blast database out of each genome.  This will be used to assess quanity of the transcriptome assemblies from trinity.
 
