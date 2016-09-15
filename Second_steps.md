@@ -82,5 +82,11 @@ makeblastdb -in Xla.v91.repeatMasked.fa -dbtype nucl -out db_Xlaevis_v91
 ```
 makeblastdb -in Xtropicalis.v9.repeatMasked.fa -dbtype nucl -out db_Xtropicalis_v9
 ```
-Output information after blast databases shown the # of sequences added: 402501 sequences for X.laevis; 6823 sequences for X.tropicalis:
+Output information after blast databases shown the # of sequences added: 402501 sequences for X.laevis; 6823 sequences for X.tropicalis.
+
+#Running local blastn
+The assembled transcriptome data are blasted against its respective local blast database. Blastn is performed with: 
+```
+blastn -task blastn -db /home/xue/genome_data/db_Xtropicalis_v9 -outfmt 6 -evalue 0.00005 -query /home/xue/transcriptome_data/Assembled_BJE3909_Tropicalis_Trinity.fasta -out /home/xue/transcriptome_data/blastn_BJE3909_output/blastn_BJE3909
+```
 
