@@ -87,6 +87,6 @@ Output information after blast databases shown the # of sequences added: 402501 
 #Running local blastn
 The assembled transcriptome data are blasted against its respective local blast database. Blastn is performed with: 
 ```
-blastn -task blastn -db /home/xue/genome_data/db_Xtropicalis_v9 -outfmt 6 -evalue 0.00005 -query /home/xue/transcriptome_data/Assembled_BJE3909_Tropicalis_Trinity.fasta -out /home/xue/transcriptome_data/blastn_BJE3909_output/blastn_BJE3909 --max_target_seqs 1
+blastn -task blastn -db /home/xue/genome_data/db_Xtropicalis_v9 -outfmt 6 -evalue 0.00005 -query /home/xue/transcriptome_data/Assembled_BJE3909_Tropicalis_Trinity.fasta -out /home/xue/transcriptome_data/blastn_BJE3909_output/blastn_BJE3909 -max_target_seqs 1
 ```
 
