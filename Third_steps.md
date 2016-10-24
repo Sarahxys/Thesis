@@ -10,3 +10,7 @@ To execute the script locally (not on server):
 ```
 ./BlastnOutputAnalysis.pl
 ```
+To put perl script on the server so that I can run it on the server:
+```
+scp BlastnOutputAnanlysis_Oct24_v3_clean.pl  xue@info.mcmaster.ca:/home/xue/transcriptome_data/blastn_BJE3909_output
+```
