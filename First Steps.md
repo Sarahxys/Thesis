@@ -1,14 +1,12 @@
 # Task to do
-* Make a github repo (done)
-* Copy the transcriptome data to Xue's info account (done)
-* Practce using Screen (done)
-* Install Trinity and trimmomatic (done)
-* Trimming (done)
-* Run assemblies for XL and XT
-* Download Xl and XT genomes
-* Make BLAST databases from these genomes.
-- [ ] stuff
-
+- [x] Make a github repo 
+- [x] Copy the transcriptome data to Xue's info account 
+- [x] Practce using Screen 
+- [x] Install Trinity and trimmomatic 
+- [x] Trimming 
+- [x] Run assemblies for XL and XT
+- [x] Download Xl and XT genomes
+- [x] Make BLAST databases from these genomes.
 
 # Basics for Unix
 
