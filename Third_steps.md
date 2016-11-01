@@ -14,6 +14,10 @@ To put perl script on the server so that I can run it on the server:
 ```
 scp BlastnOutputAnanlysis_Oct24_v3_clean.pl  xue@info.mcmaster.ca:/home/xue/transcriptome_data/blastn_BJE3909_output
 ```
+To run the script with a gz file:
+```
+BlastnOutputAnanlysis_Nov1.pl <(zcat testfile10m.gz)
+```
 
 #To empty space in head 1 server, move it and zip it 
 To know how large the file is:
