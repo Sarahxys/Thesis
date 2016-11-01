@@ -32,10 +32,11 @@ To move it back to head 1 from head 4:
 ```
 mv /4/xue/trinityrnaseq-2.2.0/ .
 ```
-To zip it:
+To zip files:
 ```
 gzip filename
 ```
-
-
-
+To zip directory: 
+```
+tar -cvf genome_data.tar genome_data
+```
