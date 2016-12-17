@@ -37,6 +37,14 @@ gzip BJE3909_paired_R2.fq
 gzip BJE3909_single_R1_and_R2.fq
 ```
 
+The path to the compressed files are:
+```
+/4/xue/transcriptome_data/BJE4168_laevis_trimmed_data/BJE4168_paired_R1.fq.gz
+/4/xue/transcriptome_data/BJE4168_laevis_trimmed_data/BJE4168_paired_R2.fq.gz
+/4/xue/transcriptome_data/BJE4168_laevis_trimmed_data/BJE4168_paired_R1.fq.gz
+/4/xue/transcriptome_data/BJE4168_laevis_trimmed_data/BJE4168_paired_R2.fq.gz
+```
+
 # Fastqc
 
 You can make a html file with QC information like this:
