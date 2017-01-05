@@ -101,3 +101,7 @@ blastn -task blastn -db /home/xue/genome_data/db_Xtropicalis_v9 -outfmt 6 -evalu
 ```
 head -n 500000 blastn_BJE3909 > testfile500k
 ```
+creat testfile from zipped file:
+```
+head -n 500000 <(blastn_BJE3909.gz) > testfile500k
+```
