@@ -44,3 +44,7 @@ To zip directory:
 ```
 tar -cvf genome_data.tar genome_data
 ```
+#Sent notice when job is done from the server
+```
+SOME COMMAND ; echo "this job is done" | mail your_email@gmail.com
+``
