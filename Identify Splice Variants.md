@@ -1,4 +1,5 @@
-#Converstation Summary
+#Identify Splice Variants
+#Conversation Summary
 Summary from Jan 9 2017 discussion between Dr Ben Evans and Xue Song regarding identification of splice variants.
 - goal: identify total exons, max exons per transcript, min exons per transcript, location of variants(ends or middle)
 - method: 
