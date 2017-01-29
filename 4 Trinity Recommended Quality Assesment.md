@@ -57,6 +57,9 @@ Below are the result for X.tropicali:
 ```
 
 ```
+Trinity git wiki page stated taht "A typical Trinity transcriptome assembly will have the vast majority of all reads mapping back to the assembly, and ~70-80% of the mapped fragments found mapped as proper pairs.". Assemblies for X.tropicalis and X.laevis both had >98% of the mapped fragment found mapped as proper pairs. This indicate that those Trinity assemblies had very high quality. 
+
+
 
 #Trinity Transcriptome Contig Nx Statistics
 N50 value: at least half of all assembled bases are in transcript contigs of at least the N50 length value.
