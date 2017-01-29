@@ -22,6 +22,20 @@ SAM header is present: 123547 sequences.
         1366597 (48.37%) aligned >1 times
 98.96% overall alignment rate
 ```
+```
+[106,900,000]  lines read
+
+
+#read_type      count   pct
+proper_pairs    52751321        98.48
+improper_pairs  641463  1.20
+left_only       123480  0.23
+right_only      51448   0.10
+
+Total aligned rnaseq fragments: 53567712
+
+```
+
 Below are the result for X.tropicali:
 ```
   47888199 (100.00%) were paired; of these:
@@ -38,6 +52,10 @@ Below are the result for X.tropicali:
         322604 (13.16%) aligned exactly 1 time
         1193745 (48.70%) aligned >1 times
 99.02% overall alignment rate
+```
+
+```
+
 ```
 
 #Trinity Transcriptome Contig Nx Statistics
