@@ -56,6 +56,17 @@ Below are the result for X.tropicali:
 
 ```
 
+[94,800,000]  lines read
+
+
+#read_type      count   pct
+proper_pairs    46772423        98.45
+improper_pairs  559882  1.18
+left_only       131968  0.28
+right_only      45177   0.10
+
+Total aligned rnaseq fragments: 47509450
+
 ```
 Trinity git wiki page stated taht "A typical Trinity transcriptome assembly will have the vast majority of all reads mapping back to the assembly, and ~70-80% of the mapped fragments found mapped as proper pairs.". Assemblies for X.tropicalis and X.laevis both had >98% of the mapped fragment found mapped as proper pairs. This indicate that those Trinity assemblies had very high quality. 
 
