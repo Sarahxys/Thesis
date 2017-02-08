@@ -2,8 +2,8 @@
 The is page where I document output of Assessment Metric script for testing purpose when modifying the script to select the optimal path if >1 max Chr Id occur.
 
 #Percent of transcripts with >1MaxChrID
-Tropicalis: 6%
-Laevis: 10%
+*Tropicalis: 6%
+*Laevis: 10%
 
 #Feb 8 2017
 The below result was from 3909 test run with testfile1m. 
