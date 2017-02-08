@@ -74,3 +74,36 @@ TRINITY_DN53617_c0_g1_i1        1       Problem: different chromosome ID
 TRINITY_DN53617_c0_g1_i1        2       Problem: different chromosome ID
 
 ```
+* Problem identified in script: the script checked $max after ChrID, fragID, and tightID were stored in temptight_hash while it should check $max and update $maxChrID everytime after adding a new tight/fragment. 
+* Solution: The problem were solved by putting the check for $max/$maxChrID in the loop and below are the print out. Problem solved.
+```
+the max number is 1 and the max ChrID is Chr06
+Chr02   fragment1
+Chr06   fragment1
+Chr08   fragment2
+TRINITY_DN44051_c0_g1_i1        Chr02 Chr06 Chr08
+TRINITY_DN44051_c0_g1_i1        fragment1       Chr06   52      254     108960163       108959961       1.16e-91        340
+TRINITY_DN44051_c0_g1_i1        fragment1       Chr06   52      254     108976720       108976518       1.16e-91        340
+TRINITY_DN44051_c0_g1_i1        fragment1       Chr02   52      254     58737657        58737455        1.16e-91        340
+TRINITY_DN44051_c0_g1_i1        fragment2       Chr08   1       51      77623059        77623009        2.73e-17        93.3
+TRINITY_DN44051_c0_g1_i1        1       Problem: different chromosome ID
+TRINITY_DN44051_c0_g1_i1        2       Problem: different chromosome ID
+TRINITY_DN44051_c0_g1_i1        3       Problem: different chromosome ID
+the max number is 1 and the max ChrID is Chr08
+Chr05   fragment3
+Chr08   fragment1
+TRINITY_DN53613_c0_g2_i1        Chr05 Chr08
+TRINITY_DN53613_c0_g2_i1        fragment1       Chr08   1       254     59463767        59463514        8.28e-126       453
+TRINITY_DN53613_c0_g2_i1        fragment3       Chr05   249     285     91317657        91317621        6.40e-07        59.0
+TRINITY_DN53613_c0_g2_i1        1       Problem: different chromosome ID
+TRINITY_DN53613_c0_g2_i1        2       Problem: different chromosome ID
+the max number is 1 and the max ChrID is Chr08
+Chr02   fragment3
+Chr08   fragment1
+TRINITY_DN53617_c0_g1_i1        Chr02 Chr08
+TRINITY_DN53617_c0_g1_i1        fragment1       Chr08   1       216     60080255        60080470        1.03e-106       390
+TRINITY_DN53617_c0_g1_i1        fragment3       Chr02   216     347     60769063        60769194        4.68e-54        215
+TRINITY_DN53617_c0_g1_i1        1       Problem: different chromosome ID
+TRINITY_DN53617_c0_g1_i1        2       Problem: different chromosome ID
+
+```
