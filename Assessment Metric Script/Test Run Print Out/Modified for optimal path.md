@@ -1,7 +1,8 @@
 #Introduction
 The is page where I document output of Assessment Metric script for testing purpose when modifying the script to select the optimal path if >1 max Chr Id occur.
 #Feb 8 2017
-The below result was from 3909 test run with testfile1m:
+The below result was from 3909 test run with testfile1m. 
+Problem observed: the second transcript should not be marked as having more than two maxChr as only Chr01 occurs in both fragments.
 ```
 TRINITY_DN44051_c0_g1_i1        Chr02 Chr06 Chr08
 TRINITY_DN44051_c0_g1_i1        fragment1       Chr06   52      254     108960163       108959961       1.16e-91        340 -  1       203
