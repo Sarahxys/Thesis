@@ -108,8 +108,69 @@ TRINITY_DN53617_c0_g1_i1        2       Problem: different chromosome ID
 
 ```
 # Feb 09 2017
+*problem 1
+-> fragment5, 8, and 9 shouldn't co-exist/selected
+-> below modification was made to correct this error
+```
+elsif((($tqstart = $tempqstart)&&($tqend < $tempqend))||
+		   		(($tqstart > $tempqstart)&&($tqend = $tempqend))||
+		   		(($tqstart > $tempqstart)&&($tqend < $tempqend))){
+#fragment comparison case #4: temp cover the region of the existing fragment, store the id of the fragment in case it is long fragment that overlap with 3+ existing fragment -> compare e-value
+```
+```
+the max number is 1 and the max ChrID is Chr09
+Chr05   fragment9
+Chr06   fragment5
+Chr07   fragment8
+Chr09   fragment1
+TRINITY_DN34746_c0_g1_i1        Chr05 Chr06 Chr07 Chr09
+TRINITY_DN34746_c0_g1_i1        fragment1       Chr09   96      218     26869622        26869743        1.18e-52        210     1       123
+TRINITY_DN34746_c0_g1_i1        fragment5       Chr06   1       71      12496497        12496427        1.65e-25        120     -1      71
+TRINITY_DN34746_c0_g1_i1        fragment8       Chr07   1       76      79934849        79934774        1.65e-25        120     -1      76
+TRINITY_DN34746_c0_g1_i1        fragment9       Chr05   1       85      96479241        96479156        1.65e-25        120     -1      86
+TRINITY_DN34746_c0_g1_i1        1       Problem: different chromosome ID
+TRINITY_DN34746_c0_g1_i1        2       Problem: different chromosome ID
+TRINITY_DN34746_c0_g1_i1        3       Problem: different chromosome ID
+TRINITY_DN34746_c0_g1_i1        4       Problem: different chromosome ID
+
+```
+*Problem 2
+-> cosider as error?
+```
+the max number is 1 and the max ChrID is scaffold_42
+scaffold_113    fragment3
+scaffold_314    fragment4
+scaffold_42     fragment1
+TRINITY_DN34783_c8_g3_i5        scaffold_113 scaffold_314 scaffold_42
+TRINITY_DN34783_c8_g3_i5        fragment1       scaffold_42     1       190     728923  729113  1.44e-87        327     1       191
+TRINITY_DN34783_c8_g3_i5        fragment3       scaffold_113    187     229     418849  418891  5.05e-11        73.4    1       43
+TRINITY_DN34783_c8_g3_i5        fragment4       scaffold_314    185     229     82186   82142   5.05e-11        73.4    -1      45
+TRINITY_DN34783_c8_g3_i5        1       Problem: different orientation
+TRINITY_DN34783_c8_g3_i5        2       Problem: different orientation
+TRINITY_DN34783_c8_g3_i5        3       Problem: different orientation
+```
+
+*Problem 3
+-> correction made: added the below when checking chromosome error.
+```
+	if ($firstfragname =~ "scaffold"){
+		$error_hash{$qseqID} = "Contain scaffold";
+	}
+```
+```
+the max number is 1 and the max ChrID is scaffold_1795
+Chr05   fragment1
+scaffold_1795   fragment1
+TRINITY_DN34791_c2_g1_i1        Chr05 scaffold_1795
+TRINITY_DN34791_c2_g1_i1        fragment1       scaffold_1795   8       540     4398    3891    0.0     830     -1      533
+TRINITY_DN34791_c2_g1_i1        fragment1       Chr05   8       540     144380469       144380972       0       803     1       533
+TRINITY_DN34791_c2_g1_i1        1       no error
+TRINITY_DN34791_c2_g1_i1        2       no error
+path selected:1 and error message is no error
+
+```
 * Problem 4
-- correct for it? stated it as one of the limitation?
+-> correct for it? stated it as one of the limitation?
 ```
 the max number is 1 and the max ChrID is Chr08
 Chr03   fragment3
