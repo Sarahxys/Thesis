@@ -107,3 +107,24 @@ TRINITY_DN53617_c0_g1_i1        1       Problem: different chromosome ID
 TRINITY_DN53617_c0_g1_i1        2       Problem: different chromosome ID
 
 ```
+# Feb 09 2017
+* Problem 4
+- correct for it? stated it as one of the limitation?
+```
+the max number is 1 and the max ChrID is Chr08
+Chr03   fragment3
+Chr05   fragment3
+Chr07   fragment3
+Chr08   fragment1
+TRINITY_DN34747_c0_g1_i1        Chr03 Chr05 Chr07 Chr08
+TRINITY_DN34747_c0_g1_i1        fragment1       Chr08   51      599     38585133        38585681        0.0     991     1       549
+TRINITY_DN34747_c0_g1_i1        fragment3       Chr07   1       50      7755254 7755303 2.41e-16        91.5    1       50
+TRINITY_DN34747_c0_g1_i1        fragment3       Chr05   1       50      61719614        61719663        2.41e-16        91.5    1       50
+TRINITY_DN34747_c0_g1_i1        fragment3       Chr03   1       50      17834069        17834020        2.41e-16        91.5    -1      50
+TRINITY_DN34747_c0_g1_i1        1       Problem: different chromosome ID
+TRINITY_DN34747_c0_g1_i1        2       Problem: different chromosome ID
+TRINITY_DN34747_c0_g1_i1        3       Problem: different chromosome ID
+TRINITY_DN34747_c0_g1_i1        4       Problem: different chromosome ID
+
+```
+
