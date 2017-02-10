@@ -108,7 +108,7 @@ TRINITY_DN53617_c0_g1_i1        2       Problem: different chromosome ID
 
 ```
 # Feb 09 2017
-*problem 1
+* problem 1
 -> fragment5, 8, and 9 shouldn't co-exist/selected
 -> below modification was made to correct this error
 ```
@@ -134,7 +134,7 @@ TRINITY_DN34746_c0_g1_i1        3       Problem: different chromosome ID
 TRINITY_DN34746_c0_g1_i1        4       Problem: different chromosome ID
 
 ```
-*Problem 2
+* Problem 2
 -> cosider as error?
 ```
 the max number is 1 and the max ChrID is scaffold_42
@@ -150,7 +150,7 @@ TRINITY_DN34783_c8_g3_i5        2       Problem: different orientation
 TRINITY_DN34783_c8_g3_i5        3       Problem: different orientation
 ```
 
-*Problem 3
+* Problem 3
 -> correction made: added the below when checking chromosome error.
 ```
 	if ($firstfragname =~ "scaffold"){
