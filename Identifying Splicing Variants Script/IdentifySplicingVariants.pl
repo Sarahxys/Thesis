@@ -8,12 +8,12 @@ use Getopt::Long;
 ################################################################################
 # goal: identify total exons, max exons per transcript, min exons per transcript, location of variants (ends or middle)
 # method:
-# - firstly, run Blast with setof assembled transcripts flagged with " no error" or "contain scafold" against itself.
-# - then use the blast result and coordinate information from previous genomic blast to achieve goal
-# critiria
-# - trnascript that are just repeat region of each other does not count as splcing variants
-# - transcripts that identified as splicing variants should have genomic coordinate close to each other
-# - transcripts that identifiedas splcing variants have to have two exons mapped to each other or have one large mapped exons that is greater than 200bp (changable variable)
+# - firstly, run Blast with setof assembled transcripts flagged with " no error" or "contain scaffold" against itself.
+# - then use the blast result and coordinate information from previous genome blast to achieve goal
+# criteria
+# - transcript that are just repeat region of each other does not count as splicing variants
+# - transcripts that identified as splicing variants should have genome coordinate close to each other
+# - transcripts that identified as splicing variants have to have two exons mapped to each other or have one large mapped exons that is greater than 200bp (changable variable)
 #######################################
 
 #open the input file
@@ -55,7 +55,7 @@ sub addfragment{
 }
 
 
-sub IsAlternativeSplcingVariant{
+sub IsAlternativeSplcingVariant {
 	# the sub will evalute is the aligned/matched transcript is alternative splicing variant for the query transcript
 	my $sseqID=shift;
 	#re-store the fragments in ascending order based on qstart position
@@ -73,8 +73,7 @@ sub IsAlternativeSplcingVariant{
 			     $counter ++;
 		     }
 	    }
-	    $transcript_hash{$sseqID}{$counter} = $transcript_hash{$sseqID}{$fragmentid};
-	    delete $transcript_hash{$sseqID}{$fragmentid};
+	    $transcript_hash{$sseqID}{$counter} = delete $transcript_hash{$sseqID}{$fragmentid};
 	}
 
 	#assuming transcripts that are alternative splicing variants of each other should be matching to each other with asending order.
@@ -116,17 +115,18 @@ sub IsAlternativeSplcingVariant{
 
 	#check if the two transcripts are close to each other on the genomic coordinate
 	if ($transcript_hash{$sseqID}){
+		my $lastFragId = (scalar keys %{$transcript_hash{$sseqID}}) +1;
 		my $qstart = $transcript_hash{$sseqID}{"1"}[0];
-		my $qend = $transcript_hash{$sseqID}{scalar keys %{$transcript_hash{$sseqID}} + 1}[1];
+		my $qend = $transcript_hash{$sseqID}{$lastFragId}[1];
 		my $sstart = $transcript_hash{$sseqID}{"1"}[2];
-		my $send = $transcript_hash{$sseqID}{scalar keys %{$transcript_hash{$sseqID}} + 1}[3];
+		my $send = $transcript_hash{$sseqID}{$lastFragId}[3];
 
 		#calculate genomic location for the hit
 		my @sClosestCoordinate;
 		$sClosestCoordinate[0] = 10e10;
 		my @sGenomeCoordinate;
 		foreach my $fragmentid(sort {$a <=> $b} keys %{$GenomeCoordinate{$sseqID}}){
-			if (abs($GenomeCoordinate{$sseqID}{$fragmentid}[0] - $qstart) < $ClosestCoordinate){
+			if (abs($GenomeCoordinate{$sseqID}{$fragmentid}[0] - $qstart) < $sClosestCoordinate[0]){
 				$sClosestCoordinate[0] = $qstart - $GenomeCoordinate{$sseqID}{$fragmentid}[0];
 				$sClosestCoordinate[1] = $GenomeCoordinate{$sseqID}{$fragmentid}[2]; #get the genomic start coordinate
 				$sClosestCoordinate[2] = $GenomeCoordinate{$sseqID}{$fragmentid}[3];#get the genomic end coordiante; may not be neccessary
@@ -152,7 +152,7 @@ sub IsAlternativeSplcingVariant{
 		$qClosestCoordinate[0] = 10e10;
 		my @qGenomeCoordinate;
 		foreach my $fragmentid(sort {$a <=> $b} keys %{$GenomeCoordinate{$oldfragid}}){
-			if (abs($GenomeCoordinate{$oldfragid}{$fragmentid}[0] - $qstart) < $ClosestCoordinate){
+			if (abs($GenomeCoordinate{$oldfragid}{$fragmentid}[0] - $qstart) < $qClosestCoordinate[0]){
 				$qClosestCoordinate[0] = abs($GenomeCoordinate{$oldfragid}{$fragmentid}[0] - $qstart);
 				$qClosestCoordinate[1] = $GenomeCoordinate{$oldfragid}{$fragmentid}[2]; #get the genomic start coordinate
 				$qClosestCoordinate[2] = $GenomeCoordinate{$oldfragid}{$fragmentid}[3];#get the genomic end coordiante; may not be neccessary
@@ -173,14 +173,14 @@ sub IsAlternativeSplcingVariant{
 		}
 
 		#compare genomic coordinate to determine if they are alternative splicing variants
-		if(($qGenomeCoordinate[0] =< $sGenomeCoordinate[0] && $sGenomeCoordinate[0] <= $qGenomeCoordinate[1])||
-			($qGenomeCoordinate[0] =< $sGenomeCoordinate[1] && $sGenomeCoordinate[1] <= $qGenomeCoordinate[1])||
-			($sGenomeCoordinate[0] =< $qGenomeCoordinate[0] && $qGenomeCoordinate[0] <= $sGenomeCoordinate[1])||
-			($sGenomeCoordinate[0] =< $qGenomeCoordinate[1] && $qGenomeCoordinate[1] <= $sGenomeCoordinate[1])) { #case 1: their genomic coordinate are overlapping or are exact the same;
+		if(($qGenomeCoordinate[0] <= $sGenomeCoordinate[0] && $sGenomeCoordinate[0] <= $qGenomeCoordinate[1])||
+			($qGenomeCoordinate[0] <= $sGenomeCoordinate[1] && $sGenomeCoordinate[1] <= $qGenomeCoordinate[1])||
+			($sGenomeCoordinate[0] <= $qGenomeCoordinate[0] && $qGenomeCoordinate[0] <= $sGenomeCoordinate[1])||
+			($sGenomeCoordinate[0] <= $qGenomeCoordinate[1] && $qGenomeCoordinate[1] <= $sGenomeCoordinate[1])) { #case 1: their genomic coordinate are overlapping or are exact the same;
 			return %transcript_hash;
 		}
-		elsif((abs($sGenomeCoordinate[0] - $qGenomeCoordinate[0]) =< $ToleratedProximaty)||
-			((abs($sGenomeCoordinate[1] - $qGenomeCoordinate[1]) =< $ToleratedProximaty)){
+		elsif((abs($sGenomeCoordinate[0] - $qGenomeCoordinate[0]) <= $ToleratedProximaty)||
+			(abs($sGenomeCoordinate[1] - $qGenomeCoordinate[1]) <= $ToleratedProximaty)){
 				return %transcript_hash;
 		}
 		else {
@@ -191,10 +191,10 @@ sub IsAlternativeSplcingVariant{
 	return %transcript_hash;
 }
 
-sub IdentifySplicingVariant {
+sub IdentifySplicingVariant{
 	
-	#eliminate aligned transcripts that have only one fragmet or doesnt have the same ChrID as the query transcript 
-	foreach my $sseqID (sort {$a cmp $b} keys %transcript_hash){
+	#eliminate aligned transcripts that have only one fragment or doesn't have the same ChrID as the query transcript 
+	foreach my $sseqID (sort keys %transcript_hash){
 		#delete the matched transcript name with only one fragment
 		if (scalar keys %{$transcript_hash{$sseqID}} < 2 || $sseqID eq $oldfragid){
 			delete $transcript_hash{$sseqID};
@@ -227,16 +227,16 @@ sub IdentifySplicingVariant {
 			}
 		}
 
-		#print out the detail of transcripts that passed the checks so that I can decide how to precess for the next step
-		foreach my $sseqID (sort {$a cmp $b} keys %{$ASVariants{$oldfragid}}){
-			foreach my $fragment (sort {$a <=> $b} keys %{$ASVariants{$oldfragid}{$sseqID}}){
-	        	print "$oldfragid\t$sseqID\t$fragment\t";
-		        foreach my $i (@{$isASVariants{$oldfragid}{$sseqID}{$fragment}}){
-		          print "$i\t";
-		        }
-		         print "\n";
-		    }
-		}
+		# #print out the detail of transcripts that passed the checks so that I can decide how to precess for the next step
+		# foreach my $sseqID (sort {$a cmp $b} keys %{$isASVariants{$oldfragid}}){
+		# 	foreach my $fragment (sort {$a <=> $b} keys %{$isASVariants{$oldfragid}{$sseqID}}){
+	 #        	print "$oldfragid\t$sseqID\t$fragment\t";
+		#         foreach my $i (@{$isASVariants{$oldfragid}{$sseqID}{$fragment}}){
+		#           print "$i\t";
+		#         }
+		#          print "\n";
+		#     }
+		# }
 		return %transcript_hash;
 	}
 	else{
@@ -259,7 +259,7 @@ while (my $line = <INPUT1>){
 	#0=qseqID; 1= fragment number; 2=chrID; 3= qstart; 4=qend; 5=sstart; 6=send; 7=e-value; 8=bit score; 9=direction(1 or -1); 10=length
 	push (@{$transcriptsChrID_hash{$line[0]}}, $line[2]);
 
-	my $fragNum = scalar keys $GenomeCoordinate{$line[0]; 
+	my $fragNum = scalar keys %{$GenomeCoordinate{$line[0]}}; 
 	$GenomeCoordinate{$line[0]}{$fragNum}[0]= $line[3];
 	$GenomeCoordinate{$line[0]}{$fragNum}[1]= $line[4];
 	$GenomeCoordinate{$line[0]}{$fragNum}[2]= $line[5];
@@ -292,19 +292,50 @@ while ( my $line = <INPUT2>) {
 }
 close INPUT2;
 
+my $noMatch = 1;
+my @seqID_array;
 foreach my $sseqID(sort keys %isASVariants){
+	push (@seqID_array, $sseqID);
+	foreach my $hitID(sort keys %{$isASVariants{$sseqID}}){
+		push (@seqID_array, $hitID);
+	}
+	
 	my $chrID = $transcriptsChrID_hash{$sseqID};
-	foreach $AsvID(sort keys %{$isASVariants{$sseqID}}){
-		if (exists $ASVariants{$chrID}){
-			
+	if (exists $ASVariants{$chrID}){
+		foreach my $groupNum(sort {$a cmp $b} keys %{$ASVariants{$chrID}}){
+			if ( !array_diff(@seqID_array, @{$ASVariants{$chrID}{$groupNum}})){
+	            #move the item that is in @seqID_array to 
+	            my @diff = array_diff(@seqID_array, @{$ASVariants{$chrID}{$groupNum}});
+	            push (@{$ASVariants{$chrID}{$groupNum}}, @diff);
+	            $noMatch = 0;
+	    	}
+	    }
 
-		}
-		else{
-			push (@{$AsvID{$sseqID}}, $AsvID);
-		}
+	    if ($noMatch){
+	    	my $newgroupID = (scalar keys %{$ASVariants{$chrID}}) +1;
+	    	@{$ASVariants{$chrID}{$newgroupID}} = @seqID_array;
+	    }
+	}
+	else{
+		@{$ASVariants{$chrID}{"1"}} = @seqID_array;
+	}
 
+
+}
+
+
+#calculate the total number of ASV group
+my $totalASVgroup =0;
+foreach my $chrID(sort keys %ASVariants){
+	$totalASVgroup = $totalASVgroup + (scalar keys %{$ASVariants{$chrID}});
+	foreach my $groupID(sort {$a <=> $b} keys %{$ASVariants{$chrID}}){
+		print "$chrID\t$groupID\t";
+		foreach my $i (@{$ASVariants{$chrID}{$groupID}}){
+			print "$i\t";
+		}
+		print "\n";
 	}
 }
 
-print "the number of transcripts that has alternative splicing variants: $numberoftranscript\n";
-print scalar keys %ASVariants; 
+
+print "the total number of alternative splicing variants group are: $totalASVgroup\n";
