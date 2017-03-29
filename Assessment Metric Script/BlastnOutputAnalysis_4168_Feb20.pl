@@ -35,8 +35,7 @@ use Getopt::Long;
 
 #open the input file
 my ($inputFile)=@ARGV;
-my $printlist = "test4168_Printlist";
-my $printdetail = "test4168_PrintDetail";
+
 my @line;
 my %transcript_hash;
 my %error_hash;
@@ -47,7 +46,12 @@ my %tightseq_hash;
 my $tightOccur = 0;
 my $check_bothdir = 0;
 my $oldfragid = 0;
-my $error_LS = 0;
+my @error_LS = ();
+
+
+my $printlist = "4168_Printlist_OLL$OverlapLengthLimit";
+my $printdetail = "4168_PrintDetail_OLL$OverlapLengthLimit";
+my $printother = "4168_PrintotherLS_OLL$OverlapLengthLimit";
 
 GetOptions(
 	'oll=i' => \$OverlapLengthLimit,
@@ -55,9 +59,17 @@ GetOptions(
 	"out2=s" => \$printdetail
 	);
 
+$printlist = "4168_Printlist_OLL$OverlapLengthLimit";
+$printdetail = "4168_PrintDetail_OLL$OverlapLengthLimit";
+$printother = "4168_Printother_OLL$OverlapLengthLimit";
+
+
+
+
 open(INPUT,"<", "$inputFile") or die "could not open the input file";
 open(OUTPUT2, ">","$printdetail") or die "could not open the output printdetail";
 open(OUTPUT1, ">","$printlist") or die "could not open the output printlist";
+open(OUTPUT3, ">","$printother") or die "could not open the output printother";
 
 #--------------------------------------------subroutine-------------------------------------------------------------
 sub addfragment {
@@ -70,6 +82,8 @@ sub addfragment {
     $transcript_hash{$line[0]}{"fragment$numfragment"}{"T0"}[5]= $line[10]+0;
     $transcript_hash{$line[0]}{"fragment$numfragment"}{"T0"}[6]= $line[11];
     $transcript_hash{$line[0]}{"fragment$numfragment"}{"T0"}[8]= $line[3];
+    $transcript_hash{$line[0]}{"fragment$numfragment"}{"T0"}[9]= $line[2];
+
    
     if ($transcript_hash{$line[0]}{"fragment$numfragment"}{"T0"}[3] < $transcript_hash{$line[0]}{"fragment$numfragment"}{"T0"}[4]){ #determine the orientation of the fragment: if forward = 1; if reverse = -1;
         $transcript_hash{$line[0]}{"fragment$numfragment"}{"T0"}[7] = 1;
@@ -92,6 +106,7 @@ sub addtight{
     $transcript_hash{$line[0]}{$fragtid}{"T$tightnumber"}[5]= $line[10]+0;
     $transcript_hash{$line[0]}{$fragtid}{"T$tightnumber"}[6]= $line[11];
     $transcript_hash{$line[0]}{$fragtid}{"T$tightnumber"}[8]= $line[3];
+    $transcript_hash{$line[0]}{$fragtid}{"T$tightnumber"}[9]= $line[2];
     
     if ($transcript_hash{$line[0]}{$fragtid}{"T$tightnumber"}[3] < $transcript_hash{$line[0]}{$fragtid}{"T$tightnumber"}[4]){ #determine the orientation of the fragment: if forward = 1; if reverse = -1;
         $transcript_hash{$line[0]}{$fragtid}{"T$tightnumber"}[7] = 1;
@@ -192,7 +207,7 @@ sub checkerror_laevis{
 				    elsif($firstfragname =~ /^chr/ && $comparefragname=~ /^chr/){#case 3: scaffold/chr1-10 compare with caffold/chr1-10 and it doesnt match; it is an error
 					     $error_hash{$qseqID} = "Problem: different chromosome ID";					    
 					     #print "case 2 activated, $error_hash{$qseqID}, $firstfrag, $firstfragname, $firstfragnum, $comparefrag, $comparefragname, $comparefragnum\n";
-					     if ($firstfragnum == $comparefragnum){$error_LS++;}
+					     if ($firstfragnum == $comparefragnum){push (@error_LS, $qseqID);}
 					     return %transcript_hash;
 
 					}
@@ -369,7 +384,9 @@ sub sorttight_laevis{
 				    elsif($firstfragname =~ /^chr/ && $comparefragname=~ /^chr/){#case 3: scaffold/chr1-10 compare with caffold/chr1-10 and it doesnt match; it is an error
 					     $error_hash{$qseqID} = "Problem: different chromosome ID";					    
 					     #print "case 2 activated, $error_hash{$qseqID}, $firstfrag, $firstfragname, $firstfragnum, $comparefrag, $comparefragname, $comparefragnum\n";
-					     if ($firstfragnum == $comparefragnum){$error_LS++;}
+					     if ($firstfragnum == $comparefragnum){
+					     	push (@error_LS, $qseqID);
+					     }
 					     return %transcript_hash;
 
 					}
@@ -954,25 +971,50 @@ close INPUT;
 	my $tightCounter = 0;
 	my $noerror = 0;
 
+print OUTPUT3 "list of transcript and its error flag\n";
 foreach my $qseqid (sort {$a cmp $b } keys %error_hash){
 	if ($error_hash{$qseqid} eq "no error"||$error_hash{$qseqid} eq "Contain scaffold"){
 		$noerror ++;
 		print OUTPUT1 "$qseqid\n"; 
+		print OUTPUT3 "$qseqid\t$error_hash{$qseqid}\n";
 	}
-	elsif($error_hash{$qseqid} eq "Problem: different chromosome ID"){$ChromosomeError++;}
-	elsif($error_hash{$qseqid} eq "Problem: different orientation"){$OrientationError++;}
-	elsif($error_hash{$qseqid} eq "Problem: not in order"){$OrderError++;}
+	elsif($error_hash{$qseqid} eq "Problem: different chromosome ID"){
+		$ChromosomeError++;
+		print OUTPUT3 "$qseqid\t$error_hash{$qseqid}\n";
+	}
+	elsif($error_hash{$qseqid} eq "Problem: different orientation"){
+		$OrientationError++;
+		print OUTPUT3 "$qseqid\t$error_hash{$qseqid}\n";
+	}
+	elsif($error_hash{$qseqid} eq "Problem: not in order"){
+		$OrderError++;
+		print OUTPUT3 "$qseqid\t$error_hash{$qseqid}\n";
+	}
+}
+
+print OUTPUT3 "list of tight\n";
+foreach my $qseqid (sort {$a cmp $b } keys %tightseq_hash){
+
+	print OUTPUT3 "$qseqid\n";
 }
 
 print OUTPUT1 "Summary\n";
 print OUTPUT1 "Total number of genes:", scalar keys %error_hash, " \n";
 print OUTPUT1 "Number of error free assembled transcripts: $noerror (", ($noerror/scalar keys %error_hash)*100, "%)\n";
 print OUTPUT1 "There are $ChromosomeError genes that were assembled with different Chomosomes (", ($ChromosomeError/scalar keys %error_hash)*100, "%)\n";
-print OUTPUT1 "$error_LS of $ChromosomeError chromosome errors are due to the assembly of L/S\n";
+print OUTPUT1 scalar @error_LS, " of $ChromosomeError chromosome errors are due to the assembly of L/S\n";
 print OUTPUT1 "There are $OrientationError genes that have orientation problems (", ($OrientationError/scalar keys %error_hash)*100, "%) \n";
 print OUTPUT1 "There are $OrderError genes that have order problem (", ($OrderError/scalar keys %error_hash)*100, "%)\n";
 
 
+print OUTPUT3 "The list of transcript with L/S error:\n";
+foreach my $qseqid(@error_LS){
+	print OUTPUT3 "$qseqid\n";
+}
+
+
+
 close OUTPUT1;
+close OUTPUT2;
 close OUTPUT2;
 

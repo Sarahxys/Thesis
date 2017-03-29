@@ -6,13 +6,13 @@ use Getopt::Long;
 #no autovivification;
 
 #####
-#This program will analysis the blastn output of trinity assembly. -> this version will store the tights and output the number of sequences with tights ->
+#This program will analysis the blastn output of trinity assembly. -> this version will store the tiess and output the number of sequences with tiess ->
 #-> so that I can know which method to precess
 #This script will read into the result file of blastn(in fasta format) and for each transcriptome sequence, aligned fragments will be filter based on e-value.
 #After filtering, fragments will be re-order based on query coordinates. 
 #The script will then identify the possible error in each transcritome sequence.
-#VersionJan11_printlist: this version will be motified to select the optimal path when 2 chrid both have the max occurence for tights. 
-# this version will also motified to have transcript_hash contain fragments/tights for one query id only. The resulting transcript-id will be stored at error_hash and print out to printlist(output #1); 
+#VersionJan11_printlist: this version will be motified to select the optimal path when 2 chrid both have the max occurence for tiess. 
+# this version will also motified to have transcript_hash contain fragments/tiess for one query id only. The resulting transcript-id will be stored at error_hash and print out to printlist(output #1); 
 #infomation including coordinates, chrid, and etc will be print out to printinfor(output #2)  
 ############
 #blast format 6
@@ -23,43 +23,52 @@ use Getopt::Long;
 #done: foreach loop to compare the new fragment to all the fragment store in the hash
 ############
 #Decisions 
-#hash structure: qseqid, fragment number, tight number, array for stats storage(last level)
+#hash structure: qseqid, fragment number, ties number, array for stats storage(last level)
 #last level array order: 0=sseqid; 1=qsatart; 2=qend; 3=sstard; 4= send; 5=evalue; 6=bitsore; 7=forward(1)/reverse(-1); 8=length;
 #3 main type of errors: are they the same chromosom; order of the chromosome; the orientation of the fragments(forward or reverse)
 #use e-value as the index; always keep the fragment with the lowest e-value(closer to 0)
 #the toleranted overlapping region is 5bp
 #I will modify transcript_hash as a lexical(global/my) variable in subroutine instead of passing it to subroutine as a reference;(it will be interesting to change it to the reference/dereference method and do a time-analysis)
-#there will be two different subroutines for sorting tights for tropicalis and laevis since they have difference genomic characteristics
+#there will be two different subroutines for sorting tiess for tropicalis and laevis since they have difference genomic characteristics
 ###########
 #improvement
-#store the one that is tight and make decision later: 
+#store the one that is ties and make decision later: 
 #split the blastnoutput file into multiple smaller file and do parallel running
 #blast the gene id of single reads into xenbase and see where is that located
 
 #open the input file
 my ($inputFile)=@ARGV;
-my $printlist = "test_Printlist";
-my $printdetail = "test_PrintDetail";
 my @line;
 my %transcript_hash;
 my %error_hash;
 my $numfragment = 0;
 my $DoneLoading = 0;
 my $OverlapLengthLimit = 5;
-my %tightseq_hash;
-my $tightOccur = 0;
+my %tiesseq_hash;
+my $tiesOccur = 0;
 my $check_bothdir = 0;
 my $oldfragid = 0;
+
+my $printlist = "3909_Printlist_OLL$OverlapLengthLimit";
+my $printdetail = "3909_PrintDetail_OLL$OverlapLengthLimit";
+my $printother = "3909_Printother_OLL$OverlapLengthLimit";
 
 GetOptions(
 	'oll=i' => \$OverlapLengthLimit,
 	"out1=s" => \$printlist,
 	"out2=s" => \$printdetail
 	);
- 
+
+$printlist = "3909_Printlist_OLL$OverlapLengthLimit";
+$printdetail = "3909_PrintDetail_OLL$OverlapLengthLimit";
+$printother = "3909_Printother_OLL$OverlapLengthLimit";
+
+
+
 open(INPUT,"<", "$inputFile") or die "could not open the input file";
 open(OUTPUT2, ">","$printdetail") or die "could not open the output printdetail";
 open(OUTPUT1, ">","$printlist") or die "could not open the output printlist";
+open(OUTPUT3, ">","$printother") or die "could not open the output printother";
 
 
 #--------------------------------------------subroutine-------------------------------------------------------------
@@ -84,23 +93,23 @@ sub addfragment {
 }
 
 
-sub addtight{
+sub addties{
 	my ($fragtid)=shift;
-	my $tightnumber = scalar keys %{$transcript_hash{$line[0]}{$fragtid}};
-	$transcript_hash{$line[0]}{$fragtid}{"T$tightnumber"}[0]= $line[1]; 
-    $transcript_hash{$line[0]}{$fragtid}{"T$tightnumber"}[1]= $line[6]+0; 
-    $transcript_hash{$line[0]}{$fragtid}{"T$tightnumber"}[2]= $line[7]+0; 
-    $transcript_hash{$line[0]}{$fragtid}{"T$tightnumber"}[3] = $line[8]+0;
-    $transcript_hash{$line[0]}{$fragtid}{"T$tightnumber"}[4]= $line[9]+0;
-    $transcript_hash{$line[0]}{$fragtid}{"T$tightnumber"}[5]= $line[10]+0;
-    $transcript_hash{$line[0]}{$fragtid}{"T$tightnumber"}[6]= $line[11];
-    $transcript_hash{$line[0]}{$fragtid}{"T$tightnumber"}[8]= $line[3];
+	my $tiesnumber = scalar keys %{$transcript_hash{$line[0]}{$fragtid}};
+	$transcript_hash{$line[0]}{$fragtid}{"T$tiesnumber"}[0]= $line[1]; 
+    $transcript_hash{$line[0]}{$fragtid}{"T$tiesnumber"}[1]= $line[6]+0; 
+    $transcript_hash{$line[0]}{$fragtid}{"T$tiesnumber"}[2]= $line[7]+0; 
+    $transcript_hash{$line[0]}{$fragtid}{"T$tiesnumber"}[3] = $line[8]+0;
+    $transcript_hash{$line[0]}{$fragtid}{"T$tiesnumber"}[4]= $line[9]+0;
+    $transcript_hash{$line[0]}{$fragtid}{"T$tiesnumber"}[5]= $line[10]+0;
+    $transcript_hash{$line[0]}{$fragtid}{"T$tiesnumber"}[6]= $line[11];
+    $transcript_hash{$line[0]}{$fragtid}{"T$tiesnumber"}[8]= $line[3];
     
-    if ($transcript_hash{$line[0]}{$fragtid}{"T$tightnumber"}[3] < $transcript_hash{$line[0]}{$fragtid}{"T$tightnumber"}[4]){ #determine the orientation of the fragment: if forward = 1; if reverse = -1;
-        $transcript_hash{$line[0]}{$fragtid}{"T$tightnumber"}[7] = 1;
+    if ($transcript_hash{$line[0]}{$fragtid}{"T$tiesnumber"}[3] < $transcript_hash{$line[0]}{$fragtid}{"T$tiesnumber"}[4]){ #determine the orientation of the fragment: if forward = 1; if reverse = -1;
+        $transcript_hash{$line[0]}{$fragtid}{"T$tiesnumber"}[7] = 1;
     }
     else {
-        $transcript_hash{$line[0]}{$fragtid}{"T$tightnumber"}[7] = -1;
+        $transcript_hash{$line[0]}{$fragtid}{"T$tiesnumber"}[7] = -1;
     }
     return %transcript_hash;
 }
@@ -109,18 +118,18 @@ sub printdetail{
 	my $qseqID = shift;
 	#print the detail to output2
 	if ($error_hash{$qseqID} eq "no error"||$error_hash{$qseqID} eq "Contain scaffold"){
-		if ($tightseq_hash{$qseqID}){#print detail of transcripts with tights
+		if ($tiesseq_hash{$qseqID}){#print detail of transcripts with tiess
 			foreach my $fragment (sort keys %{$transcript_hash{$qseqID}}){
-		        foreach my $tight(sort keys %{$transcript_hash{$qseqID}{$fragment}}){
+		        foreach my $ties(sort keys %{$transcript_hash{$qseqID}{$fragment}}){
 		        	print OUTPUT2 "$qseqID\t$fragment\t";
-			        foreach my $i (0..$#{$transcript_hash{$qseqID}{$fragment}{$tight}}){
-			          print OUTPUT2 "$transcript_hash{$qseqID}{$fragment}{$tight}[$i]\t";
+			        foreach my $i (0..$#{$transcript_hash{$qseqID}{$fragment}{$ties}}){
+			          print OUTPUT2 "$transcript_hash{$qseqID}{$fragment}{$ties}[$i]\t";
 			        }
 			         print OUTPUT2 "\n";
 			    }
 		    }
 		}
-		else{#print detail of transcripts without tights
+		else{#print detail of transcripts without tiess
 			foreach my $fragment (sort {$a <=> $b} keys %{$transcript_hash{$qseqID}}){
 	        	print OUTPUT2 "$qseqID\t$fragment\t";
 		        foreach my $i (0..$#{$transcript_hash{$qseqID}{$fragment}}){
@@ -222,9 +231,9 @@ sub checkerror_tropicalis{
 	} 
 }
 
-sub sorttight_tropicalis{
+sub sortties_tropicalis{
 	my ($qseqID)=shift;
-	my %temptight_hash;
+	my %tempties_hash;
 	my %count_hash;
 	my $ChrID;
 	my $max=0;
@@ -232,15 +241,15 @@ sub sorttight_tropicalis{
 	my %keepChrID; #the list of chrID to be keep when maxChrID does not exist in every fragment
 	$error_hash{$qseqID} = "no error";
 
-	#store the name of chromosome/scafold in the temptight_hash;
+	#store the name of chromosome/scafold in the tempties_hash;
 	foreach my $fragID(sort {$a cmp $b} keys %{$transcript_hash{$qseqID}}){
-		foreach my $tightID(sort {$a cmp $b} keys %{$transcript_hash{$qseqID}{$fragID}}){
-			$ChrID = $transcript_hash{$qseqID}{$fragID}{$tightID}[0];
-			push (@{$temptight_hash{$ChrID}{$fragID}}, $tightID); 
+		foreach my $tiesID(sort {$a cmp $b} keys %{$transcript_hash{$qseqID}{$fragID}}){
+			$ChrID = $transcript_hash{$qseqID}{$fragID}{$tiesID}[0];
+			push (@{$tempties_hash{$ChrID}{$fragID}}, $tiesID); 
 			
 			#determine which ChrID occurs the most of the fragment(note: this is counting how many fragID have ChrID)
-			if (scalar keys %{$temptight_hash{$ChrID}} > $max){
-				$max=scalar keys %{$temptight_hash{$ChrID}}; #the occurance of $maxChrID
+			if (scalar keys %{$tempties_hash{$ChrID}} > $max){
+				$max=scalar keys %{$tempties_hash{$ChrID}}; #the occurance of $maxChrID
 				$maxChrID = $ChrID;
 			}
 		}
@@ -250,25 +259,25 @@ sub sorttight_tropicalis{
 
 		####################test if it is possible that two chr occur the most equally############
 		my @test;
-		foreach my $ChrID(sort keys %temptight_hash){
-		 	if (scalar keys %{$temptight_hash{$ChrID}} == $max){ #the occurance of $ChrID equal to $max, meaning it is the one of the maxChr that would generate optimal path
+		foreach my $ChrID(sort keys %tempties_hash){
+		 	if (scalar keys %{$tempties_hash{$ChrID}} == $max){ #the occurance of $ChrID equal to $max, meaning it is the one of the maxChr that would generate optimal path
 		 		push (@test,$ChrID);
 		 	}
 		}
 
 		if (scalar @test > 1){
 			selectOptimal($qseqID, $max, \@test); #send the qseqID and the list of maxChrID to the subroutine selectOptiaml
-			return; #exist the subroutine sorttight_tropicalis
+			return; #exist the subroutine sortties_tropicalis
 		}
 		#########################test only##################################
 
-	#determine the best route and keep tights that fit the best route	
+	#determine the best route and keep tiess that fit the best route	
 	if (scalar keys %{$transcript_hash{$qseqID}} == $max){#there is a ChrID that occurs in all fragment
-		foreach my $ChrID(sort keys %temptight_hash){ #delete all the tights in the transcription_hash{$qseqID} that doesnt have ChrID
+		foreach my $ChrID(sort keys %tempties_hash){ #delete all the tiess in the transcription_hash{$qseqID} that doesnt have ChrID
 			if ($ChrID ne $maxChrID){
-				foreach my $fragID(sort keys %{$temptight_hash{$ChrID}}){	
-					foreach my $tightID(@{$temptight_hash{$ChrID}{$fragID}}){
-						delete $transcript_hash{$qseqID}{$fragID}{$tightID};
+				foreach my $fragID(sort keys %{$tempties_hash{$ChrID}}){	
+					foreach my $tiesID(@{$tempties_hash{$ChrID}{$fragID}}){
+						delete $transcript_hash{$qseqID}{$fragID}{$tiesID};
 					}
 				}
 			}
@@ -276,7 +285,7 @@ sub sorttight_tropicalis{
 	}
 	else{#ChrID does not exist in every fragment, need to sort throught the fragment **********very badly structured!!!!! change it if have time
 		foreach my $f1(sort keys %{$transcript_hash{$qseqID}}){
-			if ($temptight_hash{$maxChrID}{$f1}){#if this fragment contain maxChrID, keep tights with ChrID only and delete the rest.
+			if ($tempties_hash{$maxChrID}{$f1}){#if this fragment contain maxChrID, keep tiess with ChrID only and delete the rest.
 					$keepChrID{$f1} = $maxChrID; 					
 			}			
 			else{
@@ -312,7 +321,7 @@ sub sorttight_tropicalis{
 			}
 		}
 
-		#delete tights that don't have $keepChrID
+		#delete tiess that don't have $keepChrID
 		foreach my $f1(sort keys %{$transcript_hash{$qseqID}}){
 			foreach my $t1(sort keys %{$transcript_hash{$qseqID}{$f1}}){
 				if ($transcript_hash{$qseqID}{$f1}{$t1}[0] ne $keepChrID{$f1}){
@@ -323,7 +332,7 @@ sub sorttight_tropicalis{
 		}
 	}
 	
-	############after selecting which tight to keep, check if it has chromosome issue###########
+	############after selecting which ties to keep, check if it has chromosome issue###########
 	#check if the fragments are on the same chromosome
 	my $firstfrag;
 	$firstfrag = $maxChrID;
@@ -362,25 +371,25 @@ sub sorttight_tropicalis{
 	#if there is orientation issue, keep the one has the best choice and document it as orientation issue########
 	my $orientationID;
 	if($error_hash{$qseqID} eq "no error"){	
-		%temptight_hash = ();#empty the temptight_hash so that i can use it here without declare another temp hash
+		%tempties_hash = ();#empty the tempties_hash so that i can use it here without declare another temp hash
 		
 		foreach my $fragID(sort keys %{$transcript_hash{$qseqID}}){
-			foreach my $tightID(sort keys %{$transcript_hash{$qseqID}{$fragID}}){
-				$orientationID = $transcript_hash{$qseqID}{$fragID}{$tightID}[7];
-				push (@{$temptight_hash{$orientationID}{$fragID}}, $tightID); 			
+			foreach my $tiesID(sort keys %{$transcript_hash{$qseqID}{$fragID}}){
+				$orientationID = $transcript_hash{$qseqID}{$fragID}{$tiesID}[7];
+				push (@{$tempties_hash{$orientationID}{$fragID}}, $tiesID); 			
 			}
 		}
 
  		$orientationID = 0; 
-		if (scalar keys %{$transcript_hash{$qseqID}} == scalar keys %{$temptight_hash{"-1"}}){
+		if (scalar keys %{$transcript_hash{$qseqID}} == scalar keys %{$tempties_hash{"-1"}}){
 			$orientationID = -1;
-			##just a check, how many tight case with tights occurs in both direction for all fragments
-			if (scalar keys %{$temptight_hash{"-1"}} == scalar keys %{$temptight_hash{"1"}}){
+			##just a check, how many ties case with tiess occurs in both direction for all fragments
+			if (scalar keys %{$tempties_hash{"-1"}} == scalar keys %{$tempties_hash{"1"}}){
 				$check_bothdir ++;
 			}
 
 		}
-		elsif (scalar keys %{$transcript_hash{$qseqID}} == scalar keys %{$temptight_hash{"1"}}) {#if there is one direction that exist in all fragment 
+		elsif (scalar keys %{$transcript_hash{$qseqID}} == scalar keys %{$tempties_hash{"1"}}) {#if there is one direction that exist in all fragment 
 			$orientationID = 1;
 		}
 		else{
@@ -406,11 +415,11 @@ sub sorttight_tropicalis{
 		foreach my $fragID (sort keys %{$transcript_hash{$qseqID}}){        
 		    my $counter = 1;
 		    my $firstkey = "empty";
-		    $firstkey = ((keys %{$transcript_hash{$qseqID}{$fragID}})[0]); #try to get one existing tight(any key) in the fragtment using: ((keys %h)[0])
+		    $firstkey = ((keys %{$transcript_hash{$qseqID}{$fragID}})[0]); #try to get one existing ties(any key) in the fragtment using: ((keys %h)[0])
 		    foreach my $comparefragmentid (sort keys %{$transcript_hash{$qseqID}}){ 
-			    my $comparetightID; 
-			    $comparetightID = ((keys %{$transcript_hash{$qseqID}{$comparefragmentid}})[0]);
-			     if ($transcript_hash{$qseqID}{$fragID}{$firstkey}[1]>$transcript_hash{$qseqID}{$comparefragmentid}{$comparetightID}[1]){
+			    my $comparetiesID; 
+			    $comparetiesID = ((keys %{$transcript_hash{$qseqID}{$comparefragmentid}})[0]);
+			     if ($transcript_hash{$qseqID}{$fragID}{$firstkey}[1]>$transcript_hash{$qseqID}{$comparefragmentid}{$comparetiesID}[1]){
 				     $counter ++;
 			     }
 		    }
@@ -425,9 +434,9 @@ sub sorttight_tropicalis{
 		my $start = 0;
 		my $end = 0;
 		foreach my $fragID (sort {$a <=> $b} keys %{$transcript_hash{$qseqID}}){
-			foreach my $tightID(sort {$a cmp $b} keys %{$transcript_hash{$qseqID}{$fragID}}){
-				$start = $transcript_hash{$qseqID}{$fragID}{$tightID}[3];
-				$end = $transcript_hash{$qseqID}{$fragID}{$tightID}[4];
+			foreach my $tiesID(sort {$a cmp $b} keys %{$transcript_hash{$qseqID}{$fragID}}){
+				$start = $transcript_hash{$qseqID}{$fragID}{$tiesID}[3];
+				$end = $transcript_hash{$qseqID}{$fragID}{$tiesID}[4];
 				$range{$fragID}{$start}=$end; #store s-start ($start) and s-end ($end) in %range
 			}
 		}
@@ -477,21 +486,21 @@ sub selectOptimal{
 	my $maxChrIDlist = shift;
 	my @maxChrIDlist = @$maxChrIDlist;
 	my %temptranscript_hash;
-	my %temptight_hash;
+	my %tempties_hash;
 	my %keepChrID;
 	my %patherror_hash;
 	my $pathnumber;
 
-	#determine the best route and keep tights that fit the best route	
+	#determine the best route and keep tiess that fit the best route	
 	foreach my $maxChrID (@maxChrIDlist){
 		$pathnumber++;
 		$patherror_hash{$pathnumber} = "no error";
 		if (scalar keys %{$transcript_hash{$qseqID}} == $max){#there is a ChrID that occurs in all fragment
 			foreach my $fragID (sort {$a cmp $b} keys %{$transcript_hash{$qseqID}}){
-				foreach my $tightID(sort {$a cmp $b} keys %{$transcript_hash{$qseqID}{$fragID}}){
-					if ($transcript_hash{$qseqID}{$fragID}{$tightID}[0]eq $maxChrID){
-						foreach my $value (@{$transcript_hash{$qseqID}{$fragID}{$tightID}}){
-							push (@{$temptranscript_hash{$pathnumber}{$qseqID}{$fragID}{$tightID}},$value); 
+				foreach my $tiesID(sort {$a cmp $b} keys %{$transcript_hash{$qseqID}{$fragID}}){
+					if ($transcript_hash{$qseqID}{$fragID}{$tiesID}[0]eq $maxChrID){
+						foreach my $value (@{$transcript_hash{$qseqID}{$fragID}{$tiesID}}){
+							push (@{$temptranscript_hash{$pathnumber}{$qseqID}{$fragID}{$tiesID}},$value); 
 						}
 					}
 				}
@@ -531,7 +540,7 @@ sub selectOptimal{
 				
 			}
 
-			#delete tights that don't have $keepChrID
+			#delete tiess that don't have $keepChrID
 			foreach my $f1(sort keys %{$transcript_hash{$qseqID}}){
 				foreach my $t1(sort keys %{$transcript_hash{$qseqID}{$f1}}){
 					if ($transcript_hash{$qseqID}{$f1}{$t1}[0] eq $keepChrID{$f1}){
@@ -544,7 +553,7 @@ sub selectOptimal{
 			}
 		}
 
-		############after selecting which tight to keep, check if it has chromosome issue###########
+		############after selecting which ties to keep, check if it has chromosome issue###########
 		#check if the fragments are on the same chromosome
 		my $firstfrag;
 		$firstfrag = $maxChrID;
@@ -586,25 +595,25 @@ sub selectOptimal{
 		#if there is orientation issue, keep the one has the best choice and document it as orientation issue########
 		my $orientationID;
 		if($patherror_hash{$pathnumber} eq "no error"){	
-			%temptight_hash = ();#empty the temptight_hash so that i can use it here without declare another temp hash
+			%tempties_hash = ();#empty the tempties_hash so that i can use it here without declare another temp hash
 			
 			foreach my $fragID(sort keys %{$temptranscript_hash{$pathnumber}{$qseqID}}){
-				foreach my $tightID(sort keys %{$temptranscript_hash{$pathnumber}{$qseqID}{$fragID}}){
-					$orientationID = $temptranscript_hash{$pathnumber}{$qseqID}{$fragID}{$tightID}[7];
-					push (@{$temptight_hash{$orientationID}{$fragID}}, $tightID); 			
+				foreach my $tiesID(sort keys %{$temptranscript_hash{$pathnumber}{$qseqID}{$fragID}}){
+					$orientationID = $temptranscript_hash{$pathnumber}{$qseqID}{$fragID}{$tiesID}[7];
+					push (@{$tempties_hash{$orientationID}{$fragID}}, $tiesID); 			
 				}
 			}
 
 	 		$orientationID = 0; 
-			if (scalar keys %{$temptranscript_hash{$pathnumber}{$qseqID}} == scalar keys %{$temptight_hash{"-1"}}){
+			if (scalar keys %{$temptranscript_hash{$pathnumber}{$qseqID}} == scalar keys %{$tempties_hash{"-1"}}){
 				$orientationID = -1;
-				##just a check, how many tight case with tights occurs in both direction for all fragments
-				if (scalar keys %{$temptight_hash{"-1"}} == scalar keys %{$temptight_hash{"1"}}){
+				##just a check, how many ties case with tiess occurs in both direction for all fragments
+				if (scalar keys %{$tempties_hash{"-1"}} == scalar keys %{$tempties_hash{"1"}}){
 					$check_bothdir ++;
 				}
 
 			}
-			elsif (scalar keys %{$temptranscript_hash{$pathnumber}{$qseqID}} == scalar keys %{$temptight_hash{"1"}}) {#if there is one direction that exist in all fragment 
+			elsif (scalar keys %{$temptranscript_hash{$pathnumber}{$qseqID}} == scalar keys %{$tempties_hash{"1"}}) {#if there is one direction that exist in all fragment 
 				$orientationID = 1;
 			}
 			else{
@@ -632,11 +641,11 @@ sub selectOptimal{
 			foreach my $fragID (sort keys %{$temptranscript_hash{$pathnumber}{$qseqID}}){        
 			    my $counter = 1;
 			    my $firstkey = "empty";
-			    $firstkey = ((keys %{$temptranscript_hash{$pathnumber}{$qseqID}{$fragID}})[0]); #try to get one existing tight(any key) in the fragtment using: ((keys %h)[0])
+			    $firstkey = ((keys %{$temptranscript_hash{$pathnumber}{$qseqID}{$fragID}})[0]); #try to get one existing ties(any key) in the fragtment using: ((keys %h)[0])
 			    foreach my $comparefragmentid (sort keys %{$temptranscript_hash{$pathnumber}{$qseqID}}){ 
-				    my $comparetightID; 
-				    $comparetightID = ((keys %{$temptranscript_hash{$pathnumber}{$qseqID}{$comparefragmentid}})[0]);
-				     if ($temptranscript_hash{$pathnumber}{$qseqID}{$fragID}{$firstkey}[1]>$temptranscript_hash{$pathnumber}{$qseqID}{$comparefragmentid}{$comparetightID}[1]){
+				    my $comparetiesID; 
+				    $comparetiesID = ((keys %{$temptranscript_hash{$pathnumber}{$qseqID}{$comparefragmentid}})[0]);
+				     if ($temptranscript_hash{$pathnumber}{$qseqID}{$fragID}{$firstkey}[1]>$temptranscript_hash{$pathnumber}{$qseqID}{$comparefragmentid}{$comparetiesID}[1]){
 					     $counter ++;
 				     }
 			    }
@@ -651,9 +660,9 @@ sub selectOptimal{
 			my $start = 0;
 			my $end = 0;
 			foreach my $fragID (sort {$a <=> $b} keys %{$temptranscript_hash{$pathnumber}{$qseqID}}){
-				foreach my $tightID(sort {$a cmp $b} keys %{$temptranscript_hash{$pathnumber}{$qseqID}{$fragID}}){
-					$start = $temptranscript_hash{$pathnumber}{$qseqID}{$fragID}{$tightID}[3];
-					$end = $temptranscript_hash{$pathnumber}{$qseqID}{$fragID}{$tightID}[4];
+				foreach my $tiesID(sort {$a cmp $b} keys %{$temptranscript_hash{$pathnumber}{$qseqID}{$fragID}}){
+					$start = $temptranscript_hash{$pathnumber}{$qseqID}{$fragID}{$tiesID}[3];
+					$end = $temptranscript_hash{$pathnumber}{$qseqID}{$fragID}{$tiesID}[4];
 					$range{$fragID}{$start}=$end; #store s-start ($start) and s-end ($end) in %range
 				}
 			}
@@ -732,9 +741,9 @@ sub selectOptimal{
 		$transcript_hash{$qseqID} = ();
 		#transfer the information of $temptranscript_hash{$pathinfo[2]} to $transcript_hash
 		foreach my $fragID (sort {$a cmp $b} keys %{$temptranscript_hash{$pathinfo[2]}{$qseqID}}){
-			foreach my $tightID(sort {$a cmp $b} keys %{$temptranscript_hash{$pathinfo[2]}{$qseqID}{$fragID}}){
-				foreach my $value (@{$temptranscript_hash{$pathinfo[2]}{$qseqID}{$fragID}{$tightID}}){
-					push (@{$transcript_hash{$qseqID}{$fragID}{$tightID}},$value); 
+			foreach my $tiesID(sort {$a cmp $b} keys %{$temptranscript_hash{$pathinfo[2]}{$qseqID}{$fragID}}){
+				foreach my $value (@{$temptranscript_hash{$pathinfo[2]}{$qseqID}{$fragID}{$tiesID}}){
+					push (@{$transcript_hash{$qseqID}{$fragID}{$tiesID}},$value); 
 				}
 			}
 		}
@@ -771,10 +780,10 @@ while ( my $line = <INPUT>) {
 		    	}
 		    	else{ #$tEvalue = $tempEvalue
 					if($line[3] == $transcript_hash{$line[0]}{$fragt}{"T0"}[8]){#if have same e-value and same length
-						#$tightfragtid = $fragt;
-						addtight($fragt);
-						$tightseq_hash{$line[0]} = "1"; #the tight array store the qseqid of the gene that have tights
-						$tightOccur ++;
+						#$tiesfragtid = $fragt;
+						addties($fragt);
+						$tiesseq_hash{$line[0]} = "1"; #the ties array store the qseqid of the gene that have tiess
+						$tiesOccur ++;
 						@line=();
 					}
 					else{
@@ -838,8 +847,8 @@ while ( my $line = <INPUT>) {
 
         #if it is the last line of the file, do the check
 	    if (eof){
-	    	if ((exists $tightseq_hash{$oldfragid}) && ($tightseq_hash{$oldfragid} eq "1")){ #if it is a transcript with tight, sort it in subroutine and error will be identified in subroutine too 
-				sorttight_tropicalis ($oldfragid);
+	    	if ((exists $tiesseq_hash{$oldfragid}) && ($tiesseq_hash{$oldfragid} eq "1")){ #if it is a transcript with ties, sort it in subroutine and error will be identified in subroutine too 
+				sortties_tropicalis ($oldfragid);
 				printdetail($oldfragid);
 				%transcript_hash=();
 			}
@@ -854,20 +863,20 @@ while ( my $line = <INPUT>) {
     }
 	else { #case 0: if the transcript with seqid does not exist, it means it is the first fragment(with the lowest e-value) of the transcript ->  store it.
             if ($oldfragid){
-            	if ((exists $tightseq_hash{$oldfragid}) && ($tightseq_hash{$oldfragid} eq "1")){ #if it is a transcript with tight, sort it in subroutine and error will be identified in subroutine too 
-					sorttight_tropicalis ($oldfragid);
+            	if ((exists $tiesseq_hash{$oldfragid}) && ($tiesseq_hash{$oldfragid} eq "1")){ #if it is a transcript with ties, sort it in subroutine and error will be identified in subroutine too 
+					sortties_tropicalis ($oldfragid);
 
 					##########TEST ONLY, PRINTING TRANSCRIPT FLAGGED AS ERROR TO SEE IF THEY ARE REALLY ERRORS OR NOT##########
 					if ($error_hash{$oldfragid} eq "no error"||$error_hash{$oldfragid} eq "Contain scaffold"){ 
 					}
 					else{
 						print "$oldfragid: $error_hash{$oldfragid}\n";
-						print "This transcript contains tights \n";
+						print "This transcript contains tiess \n";
 						foreach my $fragment (sort keys %{$transcript_hash{$oldfragid}}){
-					        foreach my $tight(sort keys %{$transcript_hash{$oldfragid}{$fragment}}){
+					        foreach my $ties(sort keys %{$transcript_hash{$oldfragid}{$fragment}}){
 					        	print  "$oldfragid\t$fragment\t";
-						        foreach my $i (0..$#{$transcript_hash{$oldfragid}{$fragment}{$tight}}){
-						          print "$transcript_hash{$oldfragid}{$fragment}{$tight}[$i]\t";
+						        foreach my $i (0..$#{$transcript_hash{$oldfragid}{$fragment}{$ties}}){
+						          print "$transcript_hash{$oldfragid}{$fragment}{$ties}[$i]\t";
 						        }
 						         print "\n";
 						    }
@@ -886,19 +895,19 @@ while ( my $line = <INPUT>) {
 					}
 					else{
 						print "$oldfragid: $error_hash{$oldfragid}\n";
-						if ($tightseq_hash{$oldfragid}){#print detail of transcripts with tights
+						if ($tiesseq_hash{$oldfragid}){#print detail of transcripts with tiess
 							#print OUTPUT2 "$qseqID\t$error_hash{$qseqID}\n";
 							foreach my $fragment (sort keys %{$transcript_hash{$oldfragid}}){
-						        foreach my $tight(sort keys %{$transcript_hash{$oldfragid}{$oldfragid}}){
+						        foreach my $ties(sort keys %{$transcript_hash{$oldfragid}{$oldfragid}}){
 						        	print  "$oldfragid\t$fragment\t";
-							        foreach my $i (0..$#{$transcript_hash{$oldfragid}{$fragment}{$tight}}){
-							          print  "$transcript_hash{$oldfragid}{$fragment}{$tight}[$i]\t";
+							        foreach my $i (0..$#{$transcript_hash{$oldfragid}{$fragment}{$ties}}){
+							          print  "$transcript_hash{$oldfragid}{$fragment}{$ties}[$i]\t";
 							        }
 							         print  "\n";
 							    }
 						    }
 						}
-						else{#print detail of transcripts without tights
+						else{#print detail of transcripts without tiess
 							foreach my $fragment (sort {$a <=> $b} keys %{$transcript_hash{$oldfragid}}){
 					        	print "$oldfragid\t$fragment\t";
 						        foreach my $i (0..$#{$transcript_hash{$oldfragid}{$fragment}}){
@@ -928,18 +937,37 @@ $DoneLoading = 1;
 	my $ChromosomeError = 0;
 	my $OrientationError = 0;
 	my $OrderError = 0;
-	my $tightCounter = 0;
+	my $tiesCounter = 0;
 	my $noerror = 0;
 
+print OUTPUT3 "list of transcript and its error flag\n";
 foreach my $qseqid (sort {$a cmp $b } keys %error_hash){
 	if ($error_hash{$qseqid} eq "no error"||$error_hash{$qseqid} eq "Contain scaffold"){
 		$noerror ++;
 		print OUTPUT1 "$qseqid\n"; 
+		print OUTPUT3 "$qseqid\t$error_hash{$qseqid}\n";
 	}
-	elsif($error_hash{$qseqid} eq "Problem: different chromosome ID"){$ChromosomeError++;}
-	elsif($error_hash{$qseqid} eq "Problem: different orientation"){$OrientationError++;}
-	elsif($error_hash{$qseqid} eq "Problem: not in order"){$OrderError++;}
+	elsif($error_hash{$qseqid} eq "Problem: different chromosome ID"){
+		$ChromosomeError++;
+		print OUTPUT3 "$qseqid\t$error_hash{$qseqid}\n";
+	}
+	elsif($error_hash{$qseqid} eq "Problem: different orientation"){
+		$OrientationError++;
+		print OUTPUT3 "$qseqid\t$error_hash{$qseqid}\n";
+	}
+	elsif($error_hash{$qseqid} eq "Problem: not in order"){
+		$OrderError++;
+		print OUTPUT3 "$qseqid\t$error_hash{$qseqid}\n";
+	}
 }
+
+print OUTPUT3 "list of ties\n";
+foreach my $qseqid (sort {$a cmp $b } keys %tiesseq_hash){
+
+	print OUTPUT3 "$qseqid\n";
+}
+
+
 
 print OUTPUT1 "Summary\n";
 print OUTPUT1 "Total number of genes:", scalar keys %error_hash, " \n";
@@ -951,3 +979,4 @@ print OUTPUT1 "There are $OrderError genes that have order problem (", ($OrderEr
 
 close OUTPUT1;
 close OUTPUT2;
+close OUTPUT3;
