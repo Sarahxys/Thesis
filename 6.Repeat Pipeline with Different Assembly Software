@@ -1,5 +1,7 @@
-#Repeatition with Various Assembly software
+# Repeatition with Various Assembly software
 * we will repeat the pipeline for section 4. assessment metric and 5.identifying alternative splicing variant with the following assemblysoftwares:
 - TransAbyss
 - SOAPdenovo-Trans
+
+# Compiling TransAbyss
 
